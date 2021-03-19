@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %} search {% endblock title %} 
+{% block content %}
+<h1>Search Results</h1>
+
+{% for obj in object_list %}
+<div class="card p-4">
+  <div class="row">
+    <div class="col-3">
+      <img src="{{obj.avatar.url}}" style="height: 190px;">
+    </div>
+    <div class="col-9">
+      <h3>{{obj.user}}</h3>
+      <p>{{obj.bio}}</p>
+      <a href="{{obj.get_absolute_url}}">
+        <button class="btn btn-primary">See Profile</button>
+      </a>      
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

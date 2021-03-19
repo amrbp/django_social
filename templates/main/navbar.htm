@@ -1,0 +1,68 @@
+{% url 'home-view' as path_to_home %}
+{% url 'posts:main-post-view' as path_to_posts %}
+{% url 'profiles:my-profile-view' as path_to_my_profile %}
+{% url 'profiles:my-invites-view' as path_to_my_invites %}
+{% url 'profiles:invite-profiles-view' as path_to_invites %}
+{% url 'profiles:all-profiles-view' as path_to_all_profile %}
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand {% if request.path == path_to_home %}active{% endif %}" href="{{path_to_home}}">Social</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == path_to_posts %}active{% endif %}" href="{{path_to_posts}}"
+            >Board <span class="sr-only">(current)</span></a
+          >
+        </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Friends
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item {% if request.path == path_to_all_profile %}active{% endif %}" href="{{path_to_all_profile}}">All Profiles</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item {% if request.path == path_to_invites %}active{% endif %}" href="{{path_to_invites}}">Send Invites</a>
+              <a class="dropdown-item {% if request.path == path_to_my_invites %}active{% endif %}" href="{{path_to_my_invites}}">Receiver Invites
+                &nbsp; <span class="badge badge-primary badge-pill">{{invites_num}}</span>
+              </a>
+            </div>
+        </li>
+        <form action="{% url 'search_results' %}" class="form-inline my-2 my-lg-0 "  method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == path_to_my_profile %}active{% endif %}" href="{{path_to_my_profile}}">
+            <img src="{{picture.url}}" style="height: 25px;">
+            {{ request.user }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}"> Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

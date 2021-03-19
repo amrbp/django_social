@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+test profile
+{% endblock title %}
+
+{% block content %}
+   {{profile}}
+
+   <p><b>My posts</b> : {{profile.get_my_posts}}</p>
+   <p><b>My posts number</b> : {{profile.num_posts}}</p>
+   <p><b>Following profiles</b> : {{profile.get_following}}</p>
+   <p><b>Following profiles list</b> : {{profile.get_following_users}}</p>
+   <p><b>My posts + posts of following users</b> : {{profile.get_my_and_following_posts}}</p>
+   <p><b>Proposals for following</b> : {{profile.get_proposals_for_following}}</p>
+   <p><b>Number of people that we follow</b> : {{profile.following_count}}</p>
+   <p><b>My followers</b> : {{profile.get_followers}}</p>
+   <p><b>Number of my followers</b> : {{profile.followers_count}}</p>
+{% endblock content %}

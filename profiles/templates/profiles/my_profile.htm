@@ -1,0 +1,191 @@
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %}
+<link rel="stylesheet" href="{% static 'profiles/my_profile.css' %}" />
+{% block script %}
+<script src="{% static 'profiles/my_profile.js' %}" defer></script>
+{% endblock script %} {% block title %} My Profile {% endblock title %} {% block content %}
+
+<div class="container">
+  {% if confirm %}
+  <div class="alert alert-success" role="alert">
+    Your profile has been updated
+  </div>
+  {% endif %}
+  <div class="card p-5 mt-5">
+    <div class="row">
+      <div class="col-6" >
+        <div class="row mb-3" >
+          <div class="col">
+            <div class="h5 text-center">my profile : {{request.user}}</div></div>
+          </div>
+        <div class="row mb-3">
+          <div class="col text-center"><img src="{{profile.avatar.url}}" style="height: 250px;">
+          </div>
+        </div>
+        <!-- Button trigger modal -->
+        <div class="row mb-3">
+        <div class="col text-center">  
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          Update your Profile
+        </button></div></div>
+      </div>
+      <div class="col-5">
+        <div class="row">
+          <div class="col mt-5">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <td>username</td>
+                  <td>{{profile.user}}</td>
+                </tr>
+                <tr>
+                  <td>bio</td>
+                  <td>{{profile.bio}}</td>
+                </tr>
+                <tr>
+                  <td>number of friends</td>
+                  <td>{{profile.get_friends_no}}</td>
+                </tr>
+                <tr>
+                  <td>friends</td>
+                  <td>
+                    <ul>
+                      {% for friends in profile.get_friends %}
+                        <li>{{friends}}</li>
+                      {% endfor %}
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>number of Posts</td>
+                  <td>{{profile.get_posts_no}}</td>
+                </tr>
+                <tr>
+                  <td>number of Like given</td>
+                  <td>{{profile.get_like_give_no}}</td>
+                </tr>
+                <tr>
+                  <td>number of Like received</td>
+                  <td>{{profile.get_likes_received_no}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Update your Profile
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-4">
+              <img src="{{profile.avatar.url}}" style="height: 250px" />
+            </div>
+            <div class="col-8">
+              <div class="modal-body">{% csrf_token %} {{form|crispy}}</div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- <h4>My Profile </h4>
+{{profile.user}}
+<img src="{{profile.avatar.url}}" style="height: 50px;">
+<br>
+{{profile.bio}}
+<br>
+{{profile.get_friends_no}}
+<br>
+<ul>
+  {% for friend in profile.get_friends %}
+  <li>{{friend}}</li>
+  {% endfor %}
+</ul>
+<button
+  type="button"
+  class="btn btn-primary"
+  id="to-follow-btn"
+  data-toggle="modal"
+  data-target="#toFollowModal"
+>
+  People to Follow 
+</button>
+
+<div
+  class="modal fade"
+  id="toFollowModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Check who you can follow</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="to-follow-modal-body">
+          <div class="text-center" id="spinner-box">
+              <div class="spinner-border" role="status">
+                
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+    {% endblock content %}
+  </div>
+</div>

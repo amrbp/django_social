@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Posts {% endblock title %} {% block content %}
+{% load crispy_forms_tags %}
+<link rel="stylesheet" href={% static 'posts/post.css' %}>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-8">
+      {% for obj in qs %}
+      <div class="card p-4 mb-3">
+        <div class="row">
+          <div class="row w-100">
+            <div class="col-2 pl-5"><img  src={{obj.author.avatar.url}} style="height: 50px;"> </div>
+            <div class="col-6 pt-2">{{ obj.author.user }} - {{ obj.created|timesince}} ago</div>  
+            <div class="col-4">
+              {% ifequal request.user obj.author.user %}
+                <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-light">Update</button></a>
+                <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-light">Delete</button></a>
+              {% endifequal %}
+            </div>          
+          </div>
+        </div>
+        <hr class="my-4" />
+        <div class="row mb-5">
+          <div class="col">{{obj.body}}</div>
+        </div>
+        <div class="row mb-3">
+          {% if obj.picture %}
+          <div class="col-12">
+            <img src={{obj.picture.url}} class="img">
+          </div>
+          {% endif %}
+      </div>
+        <div class="row">
+          <div class="col">
+            <form action="{% url 'posts:like-post-view' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="post_id" value="{{obj.id}}" />
+              <div style="float: left;">
+                <button type="submit" class="btn btn-primary btn-sm">
+                  {% if profile not in obj.liked.all %}
+                  <span class="material-icons">thumb_up_alt</span>
+                  {% else %}
+                  <span class="material-icons">thumb_down_alt</span>
+                  {% endif %}
+                </button>
+                &nbsp; {{obj.like_count}} Likes 
+              </div>
+              <div style="float: right;">
+                {{obj.num_comments}} comments
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="pt-4">
+          <div>
+            {% if obj.comment_set.all %}         
+              {% for c in obj.comment_set.all %}
+              <div class="card pt-2 pl-3 pb-2">
+                <span><img class="avatar" src={{c.user.avatar.url}} >  {{ c.user }} - {{c.created|timesince}}  :   {{ c.comment }}</span>
+              </div>
+              {% endfor %}          
+            {% endif %}
+          </div>
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="post_id" value="{{obj.id}}">
+          {{c_form|crispy}}
+          <button class="btn btn-primary float-left" name="submit_c_form">Send</button>
+        </form>
+      </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-4 pl-5">
+      {% if post_add %}
+      <div class="alert alert-success" role="alert">
+        Post Added!
+      </div>
+      {% endif %}
+       <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{p_form|crispy}}
+        <div class="text-center">
+          <button type="submit" class="btn btn-success" name="submit_p_form">Send Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

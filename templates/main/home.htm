@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load static %}
+<link rel="stylesheet" href="{% static 'home.css' %}" />
+{% block title %}
+home
+{% endblock title %}
+
+{% block content %} 
+    
+    <div class="container"> 
+        <div class="text-center mt-5">
+            {% if request.user.is_authenticated %}
+            <div class="h1 font-weight-bold">Hi' {{user}}</div> 
+            {% else %}
+            <div class="container">
+                <h2 class="text-center">User not found</h2>
+                <p class="text-center">
+                    please login! <a href="{% url 'login' %}">log In</a>.
+                </p>
+              </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}
