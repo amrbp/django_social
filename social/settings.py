@@ -89,7 +89,7 @@ DATABASES={
       'ENGINE':'django.db.backends.postgresql_psycopg2',
       'NAME':'DBsocial',
       'USER':'postgres',
-      'PASSWORD':'amrsvt.ao',
+      'PASSWORD':'ammarin003',
       'HOST':'localhost',
       'PORT':'5432',
    }
