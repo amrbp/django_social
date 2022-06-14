@@ -39,9 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles', 
-    'crispy_forms',  
+    'crispy_forms',
+    'cloudinary_storage',
+    'cloudinary',  
     
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dsfnmppr3',
+    'API_KEY': '219957663899629',
+    'API_SECRET': 'c5jLJRrj9ttDfK9pXPAS5sE4z9w'
+}
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL  = 'home-view'
@@ -142,3 +150,5 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
